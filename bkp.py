@@ -41,21 +41,16 @@ def build_graph(nodes, edges):
     
     return G  # Retorna o grafo construído
 
-def draw_graph(G, path):
-    pos = nx.spring_layout(G)  # Calcula a posição dos nós usando o layout spring
-    labels = nx.get_node_attributes(G, 'label')  # Obtém os rótulos dos nós
+# def draw_graph(G):
+#     pos = nx.spring_layout(G)  # Calcula a posição dos nós usando o layout spring
+#     labels = nx.get_node_attributes(G, 'label')  # Obtém os rótulos dos nós
     
-    plt.figure(figsize=(12, 8))  # Define o tamanho da figura
+#     plt.figure(figsize=(12, 8))  # Define o tamanho da figura
+#     nx.draw(G, pos, with_labels=True, labels=labels, node_size=700, node_color='lightblue', font_size=10, font_weight='bold')  # Desenha os nós e arestas
+#     edge_labels = nx.get_edge_attributes(G, 'weight')  # Obtém os rótulos das arestas
+#     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)  # Desenha os rótulos das arestas
     
-    # Desenha os nós e arestas do caminho mais curto
-    path_edges = list(zip(path, path[1:]))
-    nx.draw(G, pos, with_labels=True, labels=labels, nodelist=path, edgelist=path_edges, node_size=700, node_color='lightblue', font_size=10, font_weight='bold', edge_color='red', width=2)
-    
-    edge_labels = nx.get_edge_attributes(G, 'weight')  # Obtém os rótulos das arestas
-    path_edge_labels = {edge: edge_labels[edge] for edge in path_edges if edge in edge_labels}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=path_edge_labels)  # Desenha os rótulos das arestas
-    
-    plt.show()  # Exibe o gráfico
+#     plt.show()  # Exibe o gráfico
 
 def dijkstra_algorithm(G, start_node, end_node):
     try:
@@ -67,6 +62,8 @@ if __name__ == "__main__":
     nodes, edges = fetch_graph_data()  # Busca os dados do grafo
     G = build_graph(nodes, edges)  # Constrói o grafo
     
+    draw_graph(G)  # Desenha o grafo
+    
     # Solicita ao usuário os nós inicial e final
     start_node = int(input("Digite o ID do nó inicial: "))
     end_node = int(input("Digite o ID do nó final: "))
@@ -75,6 +72,5 @@ if __name__ == "__main__":
     shortest_path = dijkstra_algorithm(G, start_node, end_node)
     if shortest_path is not None:
         print(f"O caminho mais curto de {start_node} para {end_node} é: {shortest_path}")
-        draw_graph(G, shortest_path)  # Desenha o grafo destacando o caminho mais curto
     else:
         print(f"Não existe caminho entre {start_node} e {end_node}")
